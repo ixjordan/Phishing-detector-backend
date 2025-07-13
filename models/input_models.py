@@ -1,12 +1,5 @@
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, Field
 from typing import Optional
 
-class textScanRequest(BaseModel):
-    text: str
-    
-
-    @model_validator(mode='before')
-    def validate_text(cls, values):
-        if not values.get('text'):
-            raise ValueError("Text field cannot be empty")
-        return values
+class TextScanRequest(BaseModel):
+    text: str = Field(...,min_length=1, description="Text to be scanned for metadata extraction.")

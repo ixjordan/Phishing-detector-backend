@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, UploadFile, File
 import tempfile
 import requests
-from models.input_models import textScanRequest
+from models.input_models import TextScanRequest
 from ocr.tesseract_engine import extract_text
 from utils.text_analyser import extract_metadata
 
@@ -29,7 +29,7 @@ async def scan_image(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=f"Error processing image: {str(e)}")
 
 @router.post("/scan-text")           
-async def scan_text(request: textScanRequest):
+async def scan_text(request: TextScanRequest):
 
     metadata = extract_metadata(request.text)
 
