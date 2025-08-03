@@ -16,7 +16,7 @@ def clean_csv(input_path:str, output_path:str):
     except FileNotFoundError:
         print(f"File not found: {input_path}")
         return None
-     # 1. Read CSV using pandas
+     
     except pd.errors.EmptyDataError:
         print(f"File is empty: {input_path}")
         return None

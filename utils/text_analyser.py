@@ -29,7 +29,7 @@ def extract_metadata(text: str) -> dict:
 
 
 
-    # search text
+    # search text for variables below
     emails = re.findall(email_regex, cleaned_text)
     phone_numbers = re.findall(uk_phone_regex, cleaned_text)
     urls = re.findall(url_regex, cleaned_text)
@@ -37,7 +37,7 @@ def extract_metadata(text: str) -> dict:
     email_domains = {e.split('@')[1] for e in emails}
     urls = [u for u in urls if u not in email_domains]
 
-   
+    # Update metadata with extracted information
     metadata["phone_numbers"] = list(set(phone_numbers))
     metadata["emails"] = list(set(emails))
     metadata["urls"] = list(set(urls))
