@@ -1,6 +1,0 @@
-
-
-# text{
-#     "phonenumber": "",
-#     "email": "",
-#     "text": ""}
