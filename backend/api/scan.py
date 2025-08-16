@@ -4,6 +4,7 @@ import requests
 from models.input_models import TextScanRequest
 from ocr.tesseract_engine import extract_text
 from utils.text_analyser import extract_metadata
+from ml.classifier.model import predict
 
 
 router = APIRouter(tags=["image_scanner"])
@@ -19,11 +20,15 @@ async def scan_image(file: UploadFile = File(...)):
         # Extract text from the image
         extracted_text = extract_text(temp_file_path)
 
-        # Extract metadata from the text
+        # Extract metadata from the text. send off to be embedded 
         metadata = extract_metadata(extracted_text)
 
-        # For now, we will return the extracted text directly
-        return metadata
+        prediction = predict(metadata["cleaned_text"])
+        metadata["prediction"] = prediction
+
+        return{
+            "prediction": prediction,
+        }
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing image: {str(e)}")
