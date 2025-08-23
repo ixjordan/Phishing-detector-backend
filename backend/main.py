@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from api.scan import router as scan_router
+from api.rag import router as rag_router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Phishing Detector API")
@@ -13,6 +14,7 @@ app.add_middleware(CORSMiddleware,
 )
 
 app.include_router(scan_router, prefix="/api")
+app.include_router(rag_router, prefix="/api/rag")
 
 app.get("/")
 async def root():

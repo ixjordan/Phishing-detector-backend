@@ -5,6 +5,11 @@ from models.input_models import TextScanRequest
 from ocr.tesseract_engine import extract_text
 from utils.text_analyser import extract_metadata
 from ml.classifier.model import predict
+from uuid import uuid4
+import os
+import json
+
+
 
 
 router = APIRouter(tags=["image_scanner"])
@@ -26,7 +31,16 @@ async def scan_image(file: UploadFile = File(...)):
         prediction = predict(metadata["cleaned_text"])
         metadata["prediction"] = prediction
 
+        scan_id = str(uuid4())  # generate a unique scan ID
+
+        # Save full scan result to disk
+        os.makedirs("results", exist_ok=True)
+        with open(os.path.join("results", f"scan_{scan_id}.json"), "w") as f:
+            json.dump(metadata, f, indent=2)
+
+
         return{
+            "scan_id": scan_id,
             "prediction": prediction,
         }
     

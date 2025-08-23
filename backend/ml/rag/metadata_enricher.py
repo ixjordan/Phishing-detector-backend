@@ -29,7 +29,7 @@ def is_scam_number(number: str, country_code: str) -> list:
     response = requests.get(url, params=params)
     if response.status_code == 200:
         data = response.json()
-        print("[DEBUG] Scam number check response:", data)
+        # print("[DEBUG] Scam number check response:", data)
         return data.get("valid", False) and data.get("scam", False)
     else:        
         print("[ERROR] Failed to check scam number:", response.status_code, response.text)
@@ -111,17 +111,17 @@ def enrich_metadata(metadata: Dict[str, Any]) -> Dict[str, Any]:
 
 if __name__ == "__main__":
     # Example usage
-    # sample_metadata = {
-    #     "phone_number": "07826514174",
-    #     "url": "https://example.com"
-    # }
+    sample_metadata = {
+        "phone_numbers": ["07826514174"],
+        "urls": ["https://example.com"]
+    }
     
     # print(is_scam_number(sample_metadata["phone_number"], 'GB'))
 
-    test_url = "https://gov.engdwpah.top/uk"  # Replace with your test URL
-    result = is_safe_url(test_url)
-    print("Result:", result)
+    # test_url = "https://gov.engdwpah.top/uk"  # Replace with your test URL
+    # result = is_safe_url(test_url)
+    # print("Result:", result)
 
-    # enriched_metadata = enrich_metadata(sample_metadata)
-    # print(enriched_metadata)
-    # # This will print the enriched metadata with additional checks
+    enriched_metadata = enrich_metadata(sample_metadata)
+    print(enriched_metadata)
+    # This will print the enriched metadata with additional checks
