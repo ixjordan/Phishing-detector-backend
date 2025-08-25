@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException, UploadFile, File
 import tempfile
 import requests
-from models.input_models import TextScanRequest
-from ocr.tesseract_engine import extract_text
-from utils.text_analyser import extract_metadata
-from ml.classifier.model import predict
+from Models.input_models import TextScanRequest
+from Ocr.tesseract_engine import extract_text
+from Utils.text_analyser import extract_metadata
+from Ml.classifier.model import predict
 from uuid import uuid4
 import os
 import json

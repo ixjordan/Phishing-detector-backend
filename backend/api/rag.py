@@ -3,7 +3,7 @@ import tempfile
 import requests
 import json 
 import os
-from ml.rag.generator import generate_explanation
+from Ml.rag.generator import generate_explanation
 
 
 router = APIRouter(tags=["rag-explainer"])
