@@ -22,10 +22,14 @@ def generate_reasoning(scan_id: str):
         
         # return the json outputted by the rag 
         explanation = generate_explanation(scan_results)
+        reasons = explanation.get("reasons", [])
 
         results = {
             "scan_id": scan_id,
-            "explanation": explanation,
+            "Confidence": explanation.get('confidence', 'uknown'),
+            "summary": explanation.get("summary", ""),
+            "reasons": reasons
+
          }
         return results
 

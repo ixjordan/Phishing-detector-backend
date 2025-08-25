@@ -27,7 +27,7 @@ def generate_explanation(context: dict) -> str:
         "messages": [
             {"role": "user", "content": prompt}
         ],
-        "model": model  # You can change this model name as needed
+        "model": model
     }
 
     response = requests.post(API_URL, headers=HEADERS, json=payload)
@@ -36,7 +36,8 @@ def generate_explanation(context: dict) -> str:
 
     if response.status_code == 200:
         try:
-            return response.json()["choices"][0]["message"]["content"].strip()
+            raw_text = response.json()["choices"][0]["message"]["content"].strip()
+            return extract_json_block(raw_text)
         except (KeyError, IndexError) as e:
             print("[ERROR] Unexpected response structure:", e)
             return "Error: Response format was invalid."
@@ -85,3 +86,20 @@ Now return your output in the following JSON format:
 
 Only return valid JSON. Do not include any additional explanation or internal thoughts. and do not write in first person 
 """.strip()
+
+
+
+import json
+import re
+
+def extract_json_block(text: str) -> dict:
+    """
+    Extract JSON object from a string containing extra text.
+    """
+    try:
+        json_match = re.search(r"{\s*\"confidence\".*}", text, re.DOTALL)
+        if json_match:
+            return json.loads(json_match.group(0))
+    except Exception as e:
+        print("[ERROR] Failed to parse JSON block:", e)
+    return {"error": "Could not parse explanation JSON."}
